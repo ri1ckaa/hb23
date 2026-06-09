@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Сюрприз для любимого ❤️</title>
+    <style>
+        /* ========== Глобальные стили (общие для всех "страниц") ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+        body {
+            min-height: 100vh;
+            background: #ffe0f0;
+            font-family: 'Comic Sans MS', 'Chalkboard SE', 'cursive', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+            padding: 2rem 1rem;
+        }
+        /* Летающие сердечки (единый код) */
+        .heart {
+            position: fixed;
+            bottom: 0;
+            font-size: 1.5rem;
+            pointer-events: none;
+            z-index: 1;
+            animation: floatHeart linear infinite;
+        }
+        @keyframes floatHeart {
+            0% { transform: translateY(0) translateX(0); opacity: 0.9; }
+            50% { transform: translateY(-50vh) translateX(10px); opacity: 0.9; }
+            100% { transform: translateY(-100vh) translateX(20px); opacity: 0; }
+        }
+
+        /* Контейнер для страниц */
+        .page {
+            display: none;
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .page.active-page {
+            display: block;
+        }
+
+        /* ========== СТРАНИЦА 1 (оригинал из index.html) ========== */
+        .page1 .message-box {
+            position: relative;
+            z-index: 20;
+            background: rgba(255, 245, 250, 0.95);
+            backdrop-filter: blur(4px);
+            border-radius: 48px;
+            padding: 2rem 2rem 2.2rem;
+            max-width: 600px;
+            width: 85%;
+            margin: 0 auto;
+            text-align: center;
+            box-shadow: 0 20px 35px rgba(255, 80, 120, 0.25), 0 5px 12px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255, 200, 210, 0.8);
+        }
+        .page1 .first-line {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #c2185b;
+            margin-bottom: 0.8rem;
+        }
+        .page1 .second-line {
+            font-size: 1.3rem;
+            color: #1a1a1a;
+            margin: 0.5rem 0;
+        }
+        .page1 .third-line {
+            font-size: 1rem;
+            color: #555555;
+            margin: 0.5rem 0 1.8rem 0;
+            white-space: nowrap;
+        }
+        .page1 .start-btn {
+            background: #c2185b;
+            border: none;
+            padding: 12px 28px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: white;
+            border-radius: 60px;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #7b0f3a;
+            transition: 0.07s linear;
+            font-family: 'Comic Sans MS', 'cursive', sans-serif;
+            letter-spacing: 1px;
+        }
+        .page1 .start-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #7b0f3a;
+        }
+        @media (max-width: 480px) {
+            .page1 .third-line {
+                font-size: 0.85rem;
+                white-space: normal;
+            }
+            .page1 .first-line {
+                font-size: 1.3rem;
+                white-space: nowrap;
+            }
+            .page1 .second-line {
+                font-size: 1rem;
+            }
+            .heart {
+                font-size: 1rem;
+            }
+        }
+
+        /* ========== СТРАНИЦА 2 (оригинал game.html) ========== */
+        .page2 .content {
+            position: relative;
+            z-index: 20;
+            max-width: 1100px;
+            width: 100%;
+            text-align: center;
+            margin: 0 auto;
+        }
+        .page2 .main-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #c2185b;
+            margin-bottom: 0.5rem;
+        }
+        .page2 .subtitle {
+            font-size: 1.1rem;
+            color: #555555;
+            margin-bottom: 1rem;
+        }
+        .page2 .counter {
+            font-size: 1rem;
+            background: rgba(255, 245, 250, 0.8);
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 40px;
+            margin-bottom: 1.5rem;
+            color: #c2185b;
+            font-weight: bold;
+        }
+        .page2 .reasons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .page2 .reason-card {
+            background: rgba(255, 245, 250, 0.95);
+            backdrop-filter: blur(4px);
+            border-radius: 32px;
+            padding: 1.2rem 1rem;
+            box-shadow: 0 10px 20px rgba(255, 80, 120, 0.2);
+            border: 1px solid rgba(255, 200, 210, 0.8);
+            text-align: left;
+        }
+        .page2 .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        .page2 .heart-icon {
+            font-size: 2rem;
+            cursor: pointer;
+            transition: transform 0.2s ease, opacity 0.2s;
+            opacity: 0.5;
+            filter: blur(0.5px);
+            display: inline-block;
+        }
+        .page2 .heart-icon.active {
+            opacity: 1;
+            filter: none;
+            transform: scale(1.1);
+            cursor: default;
+        }
+        .page2 .heart-icon:not(.active):hover {
+            transform: scale(1.15);
+            opacity: 0.8;
+        }
+        .page2 .reason-text {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #1a1a1a;
+        }
+        .page2 .reason-detail {
+            font-size: 0.95rem;
+            color: #555555;
+            margin-top: 12px;
+            padding-top: 8px;
+            border-top: 1px dashed #ffb7c5;
+            display: none;
+        }
+        .page2 .reason-detail.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        .page2 .next-btn {
+            background: #c9a0ae;
+            border: none;
+            padding: 12px 28px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #f8e8ed;
+            border-radius: 60px;
+            cursor: not-allowed;
+            box-shadow: none;
+            font-family: 'Comic Sans MS', 'cursive', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.1s;
+            pointer-events: none;
+        }
+        .page2 .next-btn.active-btn {
+            background: #c2185b;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #7b0f3a;
+            pointer-events: auto;
+        }
+        .page2 .next-btn.active-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #7b0f3a;
+        }
+        @media (max-width: 700px) {
+            .page2 .reasons-grid {
+                grid-template-columns: 1fr;
+            }
+            .page2 .main-title {
+                font-size: 1.6rem;
+            }
+            .page2 .heart-icon {
+                font-size: 1.8rem;
+            }
+            .page2 .reason-text {
+                font-size: 1rem;
+            }
+        }
+
+        /* ========== СТРАНИЦА 3 (оригинал page3.html) с центрированием ========== */
+        .page3 .content {
+            position: relative;
+            z-index: 20;
+            max-width: 750px;
+            width: 100%;
+            margin: 0 auto;
+            text-align: center;
+            background: rgba(255, 245, 250, 0.7);
+            backdrop-filter: blur(4px);
+            border-radius: 60px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 25px rgba(255, 80, 120, 0.2);
+        }
+        .page3 .main-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #c2185b;
+            margin-bottom: 0.3rem;
+        }
+        .page3 .subtitle {
+            font-size: 1.1rem;
+            color: #555555;
+            margin-bottom: 0.8rem;
+        }
+        .page3 .moves-counter {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #c2185b;
+            margin-bottom: 1.5rem;
+        }
+        .page3 .game-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            justify-items: center;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        .page3 .card {
+            background: white;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            max-width: 100px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            cursor: pointer;
+            box-shadow: 0 8px 12px rgba(0,0,0,0.1);
+            transition: 0.2s;
+            border: 2px solid #ffb7c5;
+        }
+        .page3 .card .question {
+            display: block;
+            font-size: 2.5rem;
+            color: #aaa;
+            font-weight: bold;
+        }
+        .page3 .card .gift-emoji {
+            display: none;
+            font-size: 2.2rem;
+        }
+        .page3 .card.open {
+            background: rgba(255, 120, 120, 0.6);
+            cursor: default;
+        }
+        .page3 .card.open .question {
+            display: none;
+        }
+        .page3 .card.open .gift-emoji {
+            display: block;
+        }
+        .page3 .card.matched {
+            background: rgba(100, 200, 100, 0.7);
+            cursor: default;
+        }
+        .page3 .card.matched .question {
+            display: none;
+        }
+        .page3 .card.matched .gift-emoji {
+            display: block;
+        }
+        .page3 .congrats {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #c2185b;
+            margin: 1rem 0 0.5rem;
+            display: none;
+        }
+        .page3 .next-btn {
+            background: #c9a0ae;
+            border: none;
+            padding: 12px 28px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #f8e8ed;
+            border-radius: 60px;
+            cursor: not-allowed;
+            box-shadow: none;
+            font-family: 'Comic Sans MS', 'cursive', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.1s;
+            pointer-events: none;
+            margin-top: 10px;
+        }
+        .page3 .next-btn.active {
+            background: #c2185b;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #7b0f3a;
+            pointer-events: auto;
+        }
+        .page3 .next-btn.active:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #7b0f3a;
+        }
+        @media (max-width: 550px) {
+            .page3 .main-title {
+                font-size: 1rem;
+                white-space: nowrap;
+                overflow-x: auto;
+            }
+            .page3 .congrats {
+                font-size: 0.95rem;
+                white-space: nowrap;
+                overflow-x: auto;
+            }
+            .page3 .card .question, .page3 .card .gift-emoji {
+                font-size: 1.8rem;
+            }
+            .page3 .game-grid {
+                gap: 8px;
+            }
+        }
+
+        /* ========== СТРАНИЦА 4 (оригинал page4.html) с центрированием ========== */
+        .page4 .content {
+            position: relative;
+            z-index: 20;
+            max-width: 650px;
+            width: 100%;
+            margin: 0 auto;
+            text-align: center;
+            background: rgba(255, 245, 250, 0.7);
+            backdrop-filter: blur(4px);
+            border-radius: 60px;
+            padding: 1rem 1.5rem 1.8rem 1.5rem;
+            box-shadow: 0 10px 25px rgba(255, 80, 120, 0.2);
+        }
+        .page4 .main-title {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #c2185b;
+            margin-bottom: 2.0rem;
+            white-space: nowrap;
+        }
+        .page4 .polaroid {
+            background: white;
+            padding: 12px 12px 20px 12px;
+            display: inline-block;
+            margin-bottom: 1rem;
+            position: relative;
+            border-radius: 8px;
+            box-shadow: 0 0 25px 12px rgba(194, 24, 91, 0.4), 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .page4 .photo-container {
+            width: 280px;
+            height: 375px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f0f0f0;
+            border-radius: 4px;
+        }
+        .page4 .photo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .page4 .polaroid-caption {
+            font-size: 0.95rem;
+            color: #1a1a1a;
+            margin-top: 12px;
+            text-align: center;
+            width: 280px;
+            line-height: 1.4;
+        }
+        .page4 .black-text {
+            font-size: 1.2rem;
+            color: #1a1a1a;
+            font-weight: bold;
+            margin: 1.5rem 0;
+        }
+        .page4 .next-btn {
+            background: #c2185b;
+            border: none;
+            padding: 12px 28px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: white;
+            border-radius: 60px;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #7b0f3a;
+            transition: 0.07s linear;
+            font-family: 'Comic Sans MS', 'cursive', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 0.5rem;
+        }
+        .page4 .next-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #7b0f3a;
+        }
+        @media (max-width: 550px) {
+            .page4 .main-title {
+                font-size: 0.95rem;
+                white-space: nowrap;
+                margin-bottom: 1.5rem;
+            }
+            .page4 .photo-container {
+                width: 220px;
+                height: 295px;
+            }
+            .page4 .polaroid-caption {
+                width: 220px;
+                font-size: 0.85rem;
+            }
+            .page4 .black-text {
+                font-size: 1rem;
+            }
+            .page4 .content {
+                padding: 1.2rem 1rem 1.8rem 1rem;
+            }
+        }
+
+        /* ========== СТРАНИЦА 5 (оригинал page5.html) с центрированием ========== */
+        .page5 .content {
+            position: relative;
+            z-index: 20;
+            max-width: 650px;
+            width: 100%;
+            margin: 0 auto;
+            text-align: center;
+            background: rgba(255, 245, 250, 0.7);
+            backdrop-filter: blur(4px);
+            border-radius: 60px;
+            padding: 1.8rem 1.5rem;
+            box-shadow: 0 10px 25px rgba(255, 80, 120, 0.2);
+        }
+        .page5 .big-emoji {
+            font-size: 5rem;
+            margin-bottom: 0.5rem;
+        }
+        .page5 .title {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #c2185b;
+            margin-bottom: 1.5rem;
+        }
+        .page5 .message-window {
+            background: rgba(255, 245, 250, 0.95);
+            border-radius: 48px;
+            padding: 1.8rem;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(255, 80, 120, 0.2);
+            border: 1px solid rgba(255, 200, 210, 0.8);
+            font-size: 1rem;
+            color: #1a1a1a;
+            line-height: 1.5;
+        }
+        .page5 .message-window p {
+            margin-bottom: 0.8rem;
+        }
+        .page5 .love-line {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #c2185b;
+            text-align: center;
+            margin-top: 0.5rem;
+            margin-bottom: 0;
+        }
+        @media (max-width: 550px) {
+            .page5 .big-emoji {
+                font-size: 3.5rem;
+            }
+            .page5 .title {
+                font-size: 1.6rem;
+            }
+            .page5 .message-window {
+                font-size: 0.9rem;
+                padding: 1.2rem;
+            }
+            .page5 .love-line {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="hearts-container"></div>
+
+    <!-- СТРАНИЦА 1 (ПРИВЕТСТВИЕ) -->
+    <div id="page1" class="page page1 active-page">
+        <div class="message-box">
+            <div class="first-line">💗 Привет, любимый! 💗</div>
+            <div class="second-line">Я сделала это специально для тебя.</div>
+            <div class="third-line">Пройди мини-игру, чтобы открыть свой сюрприз :)</div>
+            <button class="start-btn" id="startGameBtn">Начать игру</button>
+        </div>
+    </div>
+
+    <!-- СТРАНИЦА 2 (9 ПРИЧИН) -->
+    <div id="page2" class="page page2">
+        <div class="content">
+            <div class="main-title">💗 Почему я тебя люблю 💗</div>
+            <div class="subtitle">Нажми на каждое сердечко, чтобы раскрыть причину</div>
+            <div class="counter" id="counter2">💘 Осталось открыть: 9</div>
+            <div class="reasons-grid" id="reasonsGrid2"></div>
+            <button class="next-btn" id="nextBtn2">Далее →</button>
+        </div>
+    </div>
+
+    <!-- СТРАНИЦА 3 (ИГРА) -->
+    <div id="page3" class="page page3">
+        <div class="content">
+            <div class="main-title">💗 Давай сыграем перед сюрпризом 💗</div>
+            <div class="subtitle">Найди все пары!</div>
+            <div class="moves-counter">Ходы: <span id="moveCount3">0</span></div>
+            <div class="game-grid" id="gameGrid3"></div>
+            <div class="congrats" id="congratsMsg3">Молодец! ✨ Все пары найдены</div>
+            <button class="next-btn" id="nextBtn3">Далее →</button>
+        </div>
+    </div>
+
+    <!-- СТРАНИЦА 4 (ПОЛЯРОИД) -->
+    <div id="page4" class="page page4">
+        <div class="content">
+            <div class="main-title">💗 Соединяя два торта и два времени 💗</div>
+            <div class="polaroid">
+                <div class="photo-container">
+                    <img src="love.jpg" alt="Наше фото">
+                </div>
+                <div class="polaroid-caption">
+                    Зеркало не врёт:<br>хороший мальчик вырос в отличного мужчину
+                </div>
+            </div>
+            <div class="black-text">Хочу поздравить вас обоих: того, кто задувает свечи, и того, кто в них верит</div>
+            <button class="next-btn" id="nextBtn4">Далее →</button>
+        </div>
+    </div>
+
+    <!-- СТРАНИЦА 5 (ФИНАЛ) -->
+    <div id="page5" class="page page5">
+        <div class="content">
+            <div class="big-emoji">🎉</div>
+            <div class="title">С Днём Рождения!</div>
+            <div class="message-window">
+                <p>Желаю тебе не просто добиваться целей, а чувствовать себя счастливым здесь и сейчас. Пусть внутри всегда будет покой, а рядом — я и те, кто тебя по-настоящему любят и ценят.</p>
+                <p>Я смотрю на тебя и понимаю, как мне повезло быть рядом с тобой в этом отрезке твоей жизни. Ты делаешь мой мир уютнее, смешнее и светлее.</p>
+                <p>Сегодня твой день, и единственное желание, которое я хочу загадать — чтобы ты всегда позволял мне быть той, кто согревает тебя после тяжёлого дня. Ты — моя слабость и моя сила.</p>
+                <div class="love-line">Люблю бесконечно 💗</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== ЛЕТАЮЩИЕ СЕРДЕЧКИ (общий код) ==========
+        function createHearts() {
+            const container = document.getElementById('hearts-container');
+            const heartSymbols = ['❤️', '💖', '💗', '💓', '💕', '💞', '💘', '♥️'];
+            const heartCount = 45;
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+                const size = 0.8 + Math.random() * 1.4;
+                heart.style.fontSize = size + 'rem';
+                const sectorWidth = 100 / heartCount;
+                const leftBase = i * sectorWidth;
+                const offset = Math.random() * sectorWidth;
+                let left = leftBase + offset;
+                if (left > 100) left = 100;
+                heart.style.left = left + '%';
+                const duration = 8 + Math.random() * 12;
+                heart.style.animationDuration = duration + 's';
+                heart.style.animationDelay = (Math.random() * 8) + 's';
+                container.appendChild(heart);
+            }
+        }
+        createHearts();
+
+        // ========== ФОНОВАЯ МУЗЫКА (запуск по кнопке "Начать игру") ==========
+        let audio = null;
+        let musicEnabled = false;
+        function playMusic() {
+            if (!audio) {
+                audio = new Audio('bg-music.mp3');
+                audio.loop = true;
+                audio.volume = 0.4;
+            }
+            audio.play().then(() => {
+                musicEnabled = true;
+            }).catch(e => console.log("Музыка не запустилась", e));
+        }
+
+        // ========== ПЕРЕКЛЮЧЕНИЕ МЕЖДУ СТРАНИЦАМИ ==========
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+            document.getElementById(pageId).classList.add('active-page');
+        }
+
+        // ---------- ИНИЦИАЛИЗАЦИЯ СТРАНИЦЫ 2 (9 ПРИЧИН) ----------
+        const reasonsData = [
+            "Твоя верность", "Я знаю, что ты всегда на моей стороне",
+            "Твоя нежность", "Ты даришь мне любовь каждый день",
+            "Твой юмор", "Ты всегда можешь рассмешить меня",
+            "Твоя надёжность", "Я всегда знаю, что могу положиться на тебя",
+            "Твоя забота", "Ты всегда думаешь обо мне и моём комфорте",
+            "Твоя сила духа", "Ты проходишь через трудности и становишься только сильнее",
+            "Твоя красота", "Твоя улыбка делает мой мир ярче",
+            "Твоё сердце", "Ты умеешь любить так, как никто другой",
+            "Наше будущее", "Я хочу провести его с тобой"
+        ];
+        function initPage2() {
+            const grid = document.getElementById('reasonsGrid2');
+            grid.innerHTML = '';
+            for (let i = 0; i < 9; i++) {
+                const card = document.createElement('div');
+                card.className = 'reason-card';
+                card.innerHTML = `
+                    <div class="card-header">
+                        <span class="heart-icon" data-id="${i+1}">♡</span>
+                        <span class="reason-text">${reasonsData[i*2]}</span>
+                    </div>
+                    <div class="reason-detail" data-detail="${i+1}">${reasonsData[i*2+1]}</div>
+                `;
+                grid.appendChild(card);
+            }
+            const heartIcons = document.querySelectorAll('#reasonsGrid2 .heart-icon');
+            const nextBtn = document.getElementById('nextBtn2');
+            const counterSpan = document.getElementById('counter2');
+            let openedCount = 0;
+            const total = heartIcons.length;
+
+            function updateCounterAndButton() {
+                counterSpan.innerHTML = `💘 Осталось открыть: ${total - openedCount}`;
+                if (openedCount === total) {
+                    nextBtn.classList.add('active-btn');
+                } else {
+                    nextBtn.classList.remove('active-btn');
+                }
+            }
+            heartIcons.forEach(icon => {
+                icon.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    if (this.classList.contains('active')) return;
+                    this.textContent = '💘';
+                    this.classList.add('active');
+                    const card = this.closest('.reason-card');
+                    const detail = card.querySelector('.reason-detail');
+                    if (detail) detail.classList.add('show');
+                    openedCount++;
+                    updateCounterAndButton();
+                });
+            });
+            nextBtn.onclick = () => {
+                if (openedCount === total) {
+                    showPage('page3');
+                    initPage3();
+                } else {
+                    alert(`Осталось открыть ещё ${total - openedCount} сердечек 💕`);
+                }
+            };
+            updateCounterAndButton();
+        }
+
+        // ---------- ИНИЦИАЛИЗАЦИЯ СТРАНИЦЫ 3 (ИГРА) ----------
+        let gameInitialized = false;
+        function initPage3() {
+            if (gameInitialized) return;
+            gameInitialized = true;
+            const gifts = ['🎂', '⛵', '💋', '🎁', '🐯', '🎮', '🏍️', '🐁'];
+            let shuffledCards = [];
+            let firstIndex = null, secondIndex = null, lockBoard = false, moves = 0, matchedPairs = 0;
+            const totalPairs = gifts.length;
+            const gridContainer = document.getElementById('gameGrid3');
+            const moveSpan = document.getElementById('moveCount3');
+            const congratsDiv = document.getElementById('congratsMsg3');
+            const nextBtn = document.getElementById('nextBtn3');
+
+            function initCards() {
+                let deck = [];
+                for (let i = 0; i < gifts.length; i++) {
+                    deck.push({ id: i, value: gifts[i], matched: false });
+                    deck.push({ id: i, value: gifts[i], matched: false });
+                }
+                for (let i = deck.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [deck[i], deck[j]] = [deck[j], deck[i]];
+                }
+                return deck;
+            }
+            function renderBoard() {
+                gridContainer.innerHTML = '';
+                shuffledCards.forEach((card, idx) => {
+                    const div = document.createElement('div');
+                    div.className = 'card';
+                    if (card.matched) div.classList.add('matched');
+                    div.innerHTML = `<div class="question">?</div><div class="gift-emoji">${card.value}</div>`;
+                    div.addEventListener('click', () => onCardClick(idx));
+                    gridContainer.appendChild(div);
+                });
+            }
+            function updateMoves() { moveSpan.textContent = moves; }
+            function checkComplete() {
+                if (matchedPairs === totalPairs) {
+                    congratsDiv.style.display = 'block';
+                    nextBtn.classList.add('active');
+                }
+            }
+            function resetUnmatched() {
+                if (firstIndex !== null && secondIndex !== null) {
+                    const c1 = shuffledCards[firstIndex], c2 = shuffledCards[secondIndex];
+                    if (!c1.matched && !c2.matched) {
+                        gridContainer.children[firstIndex].classList.remove('open');
+                        gridContainer.children[secondIndex].classList.remove('open');
+                    }
+                }
+                firstIndex = null; secondIndex = null; lockBoard = false;
+            }
+            function onCardClick(idx) {
+                if (lockBoard) return;
+                const card = shuffledCards[idx];
+                if (card.matched) return;
+                if (firstIndex === idx) return;
+                if (secondIndex !== null) return;
+                const div = gridContainer.children[idx];
+                if (div.classList.contains('open')) return;
+                div.classList.add('open');
+                if (firstIndex === null) firstIndex = idx;
+                else if (secondIndex === null && firstIndex !== idx) {
+                    secondIndex = idx;
+                    moves++;
+                    updateMoves();
+                    const card1 = shuffledCards[firstIndex], card2 = shuffledCards[secondIndex];
+                    if (card1.value === card2.value) {
+                        card1.matched = true; card2.matched = true;
+                        matchedPairs++;
+                        const d1 = gridContainer.children[firstIndex], d2 = gridContainer.children[secondIndex];
+                        d1.classList.remove('open'); d1.classList.add('matched');
+                        d2.classList.remove('open'); d2.classList.add('matched');
+                        firstIndex = null; secondIndex = null;
+                        checkComplete();
+                    } else {
+                        lockBoard = true;
+                        setTimeout(() => resetUnmatched(), 800);
+                    }
+                }
+            }
+            function newGame() {
+                shuffledCards = initCards();
+                firstIndex = null; secondIndex = null; lockBoard = false;
+                moves = 0; matchedPairs = 0;
+                updateMoves();
+                congratsDiv.style.display = 'none';
+                nextBtn.classList.remove('active');
+                renderBoard();
+            }
+            newGame();
+            nextBtn.onclick = () => {
+                if (matchedPairs === totalPairs) {
+                    showPage('page4');
+                } else {
+                    alert('Сначала найди все пары!');
+                }
+            };
+        }
+
+        // ---------- СТРАНИЦА 4 (ПОЛЯРОИД) – сразу активна ----------
+        document.getElementById('nextBtn4').onclick = () => {
+            showPage('page5');
+        };
+
+        // ---------- СТРАНИЦА 1 (ПРИВЕТСТВИЕ): ЗАПУСК МУЗЫКИ И ПЕРЕХОД ----------
+        const startBtn = document.getElementById('startGameBtn');
+        startBtn.onclick = () => {
+            if (!musicEnabled) playMusic();
+            showPage('page2');
+            initPage2();
+        };
+    </script>
+</body>
+</html>
